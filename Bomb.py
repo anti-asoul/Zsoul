@@ -9,7 +9,7 @@ class Black:
         self.window = window
         self.driver = driver
         self.session = session
-        self.blacklist_ids = json.loads(conf.get("RENEW", "blacklist"))
+        self.blacklist_ids = json.loads(conf.get("KILL", "blacklist"))
         self.headers = {
             'origin': 'https://weibo.com',
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
