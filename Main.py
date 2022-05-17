@@ -569,8 +569,9 @@ class Poster:
 def login():
     def do():
         global pic, session, info_return
-        console.print("[blink]请输入登陆方式[/blink]")
-        way = console.input("[dim]账号[/dim](1)[dim]扫码[/dim](2): ")
+        console.print("[blink]请选择登录方式，输入数字后回车（推荐方式2）：[/blink]")
+        way = console.input("[dim]手动输入账号密码登录[/dim](1)  [dim]微博app扫码一键登录[/dim](2): ")
+        console.print("\n")
         blogger.open_browser("https://passport.weibo.cn/signin/login")
         try:
             if "home" not in driver.current_url:
@@ -585,8 +586,8 @@ def login():
                     path = (r'Img\{}.jpg'.format("Login"))
                     pic.change.emit(path)
                     pic.start.emit()
-                    console.print("已弹出二维码窗口，注意检查", style="italic magenta")
-                    cont = console.input("[blink]确认扫码完成[/blink] [[green]Enter[/green]]")
+                    console.print("请使用微博app扫描弹出的二维码", style="italic magenta")
+                    cont = console.input("[blink]允许登录后请返回此界面，并按下回车[/blink] [[green]Enter[/green]]")
                     driver.refresh()
                     pic.stop.emit()
                 # saveSessionCookies(session=session, cookiespath='cookie.pkl')
@@ -608,8 +609,8 @@ def login():
                 console.print("超时，网络错误", style="magenta")
                 sys.exit(0)
             else:
-                print("侦测到未知错误")
-                print(e)
+                print("侦测到未知错误，请尝试关闭再打开本程序")
+                #print(e)
                 sys.exit(0)
 
     thread = threading.Thread(target=do)
@@ -637,6 +638,8 @@ if __name__ == "__main__":
 
     console = Console(color_system="256", style=None)
     console.rule("[magenta]程序启动")
+
+    console.print("[blink]启动中... 若出现错误请尝试关闭再开启本程序...\n[/blink]")
 
     service = Service('Chrome/App/chromedriver.exe')
     driver = webdriver.Chrome(service=Service(EdgeChromiumDriverManager().install()), options=Blogger.hide())
