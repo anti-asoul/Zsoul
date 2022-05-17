@@ -481,7 +481,7 @@ class Commander:
                 self.cure.work()
                 times += 1
                 window.signal.emit("第{:d}次工作结束，开始睡眠".format(times))
-                time.sleep(int(conf.get("RENEW", "sleep_second")))
+                time.sleep(int(conf.get("CURE", "sleep_second")))
                 if stopped():
                     return True
 
