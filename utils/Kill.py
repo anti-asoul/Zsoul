@@ -12,7 +12,7 @@ class Kill:
         self.conf = conf
         print(self.url)
         self.treatment = []
-        for n in open("trashes.txt", 'r', encoding='utf-8').readlines():
+        for n in open("../trashes.txt", 'r', encoding='utf-8').readlines():
             self.treatment.append(n)
         self.window.signal.emit("话术加载完成")
         self.comment_flag = False

@@ -22,10 +22,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 # from Cure import WeiboSpider
-from Bomb import Black
-from Cure import Cure
-from Kill import Kill
-from Renew import Renew
+from utils.Bomb import Black
+from utils.Cure import Cure
+from utils.Kill import Kill
+from utils.Renew import Renew
 
 base_path = os.path.dirname(os.path.realpath(sys.argv[0]))
 config_path = os.path.join(base_path, "conf.ini")
