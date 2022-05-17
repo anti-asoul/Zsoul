@@ -1,20 +1,17 @@
+import configparser
 import json
-import multiprocessing
 import os
 import sys
-import threading
+import time
 
+import pygame
 import requests
-import PyQt5
-# from Cure import WeiboSpider
-from Bomb import Black
-from Cure import Cure
-from Kill import Kill
-from PyQt5 import QtCore, QtMultimedia
-from PyQt5.QtCore import Qt, pyqtSignal, QUrl, QSize
+from PyQt5 import QtCore
+from PyQt5.QtCore import Qt, pyqtSignal, QSize
 from PyQt5.QtGui import QPixmap, QFontDatabase, QFont, QMouseEvent, QMovie
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QCheckBox, QLineEdit, QTextEdit
-from Renew import Renew
+from rich.console import Console
+from rich.progress import track
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import EdgeOptions
@@ -23,13 +20,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as condition
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
-import time
-from rich.progress import track
-from rich.console import Console
-import configparser
-import pygame
 
-base_path = os.path.dirname(os.path.realpath(__file__))
+# from Cure import WeiboSpider
+from Bomb import Black
+from Cure import Cure
+from Kill import Kill
+from Renew import Renew
+
+base_path = os.path.dirname(os.path.realpath(sys.argv[0]))
 config_path = os.path.join(base_path, "conf.ini")
 conf = configparser.ConfigParser()
 conf.read(config_path, encoding="utf-8")
@@ -38,6 +36,7 @@ session, info_return = None, None
 import threading
 
 _stop_event = threading.Event()
+
 
 
 def stop():
@@ -99,7 +98,7 @@ class Blogger:
     def localize_scanner(self):
         self.open_browser("https://weibo.com/login.php")
         QR_tab = wait.until(condition.element_to_be_clickable((By.XPATH, '//*[@id="pl_login_form"]'
-                                                                                '/div/div[1]/div/a[2]')))
+                                                                         '/div/div[1]/div/a[2]')))
         [QR_tab.click() for i in range(2)]
         QR = wait.until(condition.presence_of_element_located((By.CSS_SELECTOR, "#pl_login_form > div > "
                                                                                 "div.login_content > img")))
@@ -481,7 +480,7 @@ class Commander:
                 self.cure.work()
                 times += 1
                 window.signal.emit("第{:d}次工作结束，开始睡眠".format(times))
-                time.sleep(int(conf.get("CURE", "sleep_second")))
+                time.sleep(int(conf.get("CURE", "sleep_seconds")))
                 if stopped():
                     return True
 

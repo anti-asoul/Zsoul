@@ -1,9 +1,5 @@
 import time
 
-from selenium import webdriver
-from selenium.webdriver.edge.options import Options
-from selenium.webdriver.edge.service import Service
-
 
 class Renew:
     def __init__(self, driver, conf):
@@ -44,4 +40,3 @@ class Renew:
             self.refresh_tag()
             self.driver.switch_to.window(self.driver.window_handles[0])
     # https://s.weibo.com/weibo?q=%23A-SOUL%E6%88%90%E5%91%98%E9%81%AD%E9%81%87%E5%85%AC%E5%8F%B8PUA%23
-

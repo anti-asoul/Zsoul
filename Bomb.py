@@ -1,5 +1,5 @@
 import json
-from datetime import time
+
 import requests
 from requests.cookies import cookiejar_from_dict
 
@@ -38,4 +38,4 @@ class Black:
             cookie = cookiejar_from_dict(cookie_done)
             response = requests.get(url, data=data, headers=self.headers, cookies=cookie)
             if response.json()['code'] != '100000':
-                self.window.signal.emit(f'拉黑用户{uid}失败'+","+"{0}".format(response.json()['code']))
+                self.window.signal.emit(f'拉黑用户{uid}失败' + "," + "{0}".format(response.json()['code']))
