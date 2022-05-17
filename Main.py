@@ -569,8 +569,9 @@ class Poster:
 def login():
     def do():
         global pic, session, info_return
-        console.print("[blink]请选择登录方式，输入数字后回车（推荐方式2）：[/blink]")
-        way = console.input("[dim]手动输入账号密码登录[/dim](1)  [dim]微博app扫码一键登录[/dim](2): ")
+        #console.print("[blink]请选择登录方式，输入数字后回车（推荐方式2）：[/blink]")
+        #way = console.input("[dim]手动输入账号密码登录[/dim](1)  [dim]微博app扫码一键登录[/dim](2): ")
+        way = 2
         console.print("\n")
         blogger.open_browser("https://passport.weibo.cn/signin/login")
         try:
