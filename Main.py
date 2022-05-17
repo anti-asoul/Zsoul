@@ -633,7 +633,7 @@ if __name__ == "__main__":
 
     ids = QFontDatabase.addApplicationFont('UI/Pixes.ttf')
     font = QFont(QFontDatabase.applicationFontFamilies(ids)[0])
-    font.setPointSize(int(13 * window.r))
+    font.setPointSize(int(13 * window.r * float(conf.get("RESCALE", "font_size"))))
     app.setFont(font)
 
     console = Console(color_system="256", style=None)
