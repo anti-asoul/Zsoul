@@ -14,7 +14,7 @@ class Cure:
         self.conf = conf
         print(self.url)
         self.treatment = []
-        for n in open("../comments.txt", 'r', encoding='utf-8').readlines():
+        for n in open("../src/comments.txt", 'r', encoding='utf-8').readlines():
             self.treatment.append(n)
         self.window.signal.emit("话术加载完成")
 

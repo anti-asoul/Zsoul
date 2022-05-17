@@ -221,14 +221,14 @@ class Interface(QWidget):
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool | Qt.WindowStaysOnTopHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
 
-        ids = QFontDatabase.addApplicationFont('UI/Pixes.ttf')
+        ids = QFontDatabase.addApplicationFont('src/UI/Pixes.ttf')
         fonts = QFont(QFontDatabase.applicationFontFamilies(ids)[0])
         fonts.setPointSize(int(12 * self.r))
 
         self.back_frame = QLabel(self)
         self.back_frame.move(0, 0)
         self.back_frame.setFixedSize(int(713 * self.r), int(439 * self.r))
-        back_frame_pic = QPixmap('UI/background_A.png')
+        back_frame_pic = QPixmap('src/UI/background_A.png')
         self.back_frame.setScaledContents(True)
         self.back_frame.setPixmap(back_frame_pic)
 
@@ -335,7 +335,7 @@ class Interface(QWidget):
         self.animate = QLabel(self)
         self.animate.setFixedSize(int(119 * self.r), int(153 * self.r))
         self.animate.move(int(267 * self.r), int(270 * self.r))
-        self.gif = QMovie('JR.gif')
+        self.gif = QMovie('src/JR.gif')
         self.gif.setScaledSize(QSize(int(119 * self.r), int(153 * self.r)))
         self.animate.setMovie(self.gif)
         self.gif.start()
@@ -405,7 +405,7 @@ class Interface(QWidget):
             self.first_play = False
             self.playing = True
             pygame.mixer.init()
-            pygame.mixer.music.load("audio.mp3")
+            pygame.mixer.music.load("src/audio.mp3")
             pygame.mixer.music.set_volume(0.5)
             pygame.mixer.music.play(loops=-1, start=0.0, fade_ms=40)
         else:
@@ -632,7 +632,7 @@ if __name__ == "__main__":
 
     window.signal.connect(append)
 
-    ids = QFontDatabase.addApplicationFont('UI/Pixes.ttf')
+    ids = QFontDatabase.addApplicationFont('src/UI/Pixes.ttf')
     font = QFont(QFontDatabase.applicationFontFamilies(ids)[0])
     font.setPointSize(int(13 * window.r * float(conf.get("RESCALE", "font_size"))))
     app.setFont(font)
