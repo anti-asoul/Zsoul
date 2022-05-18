@@ -1,0 +1,111 @@
+name: Build Workflow
+
+on: [push, pull_request]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+          architecture: 'x64'
+      - name: Print Versions
+        run: |
+          python --version
+          pip --version
+      - name: Install requirements
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+      - name: Run PyInstaller
+        run: |
+          pyinstaller -F --clean main.py
+      - name: See dist directory
+        run: ls dist
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Windows
+          path: dist/main.exe
+  build-windows-x86:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+          architecture: 'x86'
+      - name: Print Versions
+        run: |
+          python --version
+          pip --version
+      - name: Install requirements
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+      - name: Run PyInstaller
+        run: pyinstaller -F --clean main.py
+      - name: See dist directory
+        run: ls dist
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Windows-x86
+          path: dist/main.exe
+
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+      - name: Print Versions
+        run: |
+          python --version
+          pip --version
+      - name: Install requirements
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+      - name: Run PyInstaller
+        run: |
+          pyinstaller -F --clean main.py
+      - name: See dist directory
+        run: ls dist
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Ubuntu
+          path: dist
+
+  build-macos:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+      - name: Print Versions
+        run: |
+          python --version
+          pip --version
+      - name: Install requirements
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+      - name: Run PyInstaller
+        run: pyinstaller -F --clean main.py
+      - name: See dist directory
+        run: ls dist
+      - uses: actions/upload-artifact@v3
+        with:
+          name: MacOS
+          path: dist/main
