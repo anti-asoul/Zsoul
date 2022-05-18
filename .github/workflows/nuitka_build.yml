@@ -1,0 +1,35 @@
+name: Nuitka windows Build
+# makes little sense, spell-checker: disable
+on: [push, pull_request]
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python_version:
+            - '3.8'
+    name: Windows Python ${{ matrix.python_version }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Use Python ${{ matrix.python_version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python_version }}
+
+      - name: 🧳 Install Nuitka and dependencies
+        run: |
+          pip install --no-python-version-warning --disable-pip-version-check -r requirements-devel.txt
+          pip install --no-python-version-warning --disable-pip-version-check .
+      - name: Verbose scons output in compilation
+        run: |
+          python -m nuitka --module --show-scons --run --assume-yes-for-downloads tests\basics\Empty.py
+          python -m nuitka --show-scons --run tests\basics\Empty.py
+      - name: Run Nuitka test suite
+        run: |
+          Get-ChildItem env:
+          python -m nuitka --version
+          python .\tests\run-tests --no-other-python --no-debug --skip-reflection-test --skip-all-cpython-tests --assume-yes-for-downloads

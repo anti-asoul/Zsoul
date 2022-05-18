@@ -1,7 +1,9 @@
 import random
 import time
+import sys
 
 from selenium.webdriver.common.by import By
+sys.path.append("..")
 
 
 class Cure:
@@ -14,7 +16,7 @@ class Cure:
         self.conf = conf
         print(self.url)
         self.treatment = []
-        for n in open("../src/comments.txt", 'r', encoding='utf-8').readlines():
+        for n in open("src/comments.txt", 'r', encoding='utf-8').readlines():
             self.treatment.append(n)
         self.window.signal.emit("话术加载完成")
 
@@ -37,6 +39,9 @@ class Cure:
         return False
 
     def work(self):
+        if self.window.create_text.text() != "" and self.window.manu_base.isChecked():
+            self.url = self.window.create_text.text()
+        self.window.create_text.clear()
         self.browser.get(self.url)
         self.browser.implicitly_wait(5)
         time.sleep(3)
