@@ -28,9 +28,8 @@ jobs:
         run: ls dist
       - name: Cp Resource Files
         run: |
-          cp -rf src dist
-          cp -rf Img dist
-          cp -f conf.ini dist
+          Copy-Item ".\src\*" -Destination ".\dist\src\" -Recurse
+          Copy-Item ".\conf.ini" -Destination ".\dist\"
       - uses: actions/upload-artifact@v3
         with:
           name: Windows
@@ -59,9 +58,8 @@ jobs:
         run: ls dist
       - name: Cp Resource Files
         run: |
-          cp -rf src dist
-          cp -rf Img dist
-          cp -f conf.ini dist
+          Copy-Item ".\src\*" -Destination ".\dist\src\" -Recurse
+          Copy-Item ".\conf.ini" -Destination ".\dist\"
       - uses: actions/upload-artifact@v3
         with:
           name: Windows-x86
@@ -92,7 +90,6 @@ jobs:
       - name: Cp Resource Files
         run: |
           cp -rf src dist
-          cp -rf Img dist
           cp -f conf.ini dist
       - uses: actions/upload-artifact@v3
         with:
@@ -123,7 +120,6 @@ jobs:
       - name: Cp Resource Files
         run: |
           cp -rf src dist
-          cp -rf Img dist
           cp -f conf.ini dist
       - uses: actions/upload-artifact@v3
         with:
