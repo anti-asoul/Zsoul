@@ -23,13 +23,13 @@ jobs:
           pip install pyinstaller
       - name: Run PyInstaller
         run: |
-          pyinstaller -F --clean main.py
+          pyinstaller -F --clean Main.py
       - name: See dist directory
         run: ls dist
       - uses: actions/upload-artifact@v3
         with:
           name: Windows
-          path: dist/main.exe
+          path: dist
   build-windows-x86:
     runs-on: windows-latest
     steps:
@@ -49,13 +49,13 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
       - name: Run PyInstaller
-        run: pyinstaller -F --clean main.py
+        run: pyinstaller -F --clean Main.py
       - name: See dist directory
         run: ls dist
       - uses: actions/upload-artifact@v3
         with:
           name: Windows-x86
-          path: dist/main.exe
+          path: dist
 
   build-ubuntu:
     runs-on: ubuntu-latest
@@ -76,7 +76,7 @@ jobs:
           pip install pyinstaller
       - name: Run PyInstaller
         run: |
-          pyinstaller -F --clean main.py
+          pyinstaller -F --clean Main.py
       - name: See dist directory
         run: ls dist
       - uses: actions/upload-artifact@v3
@@ -102,10 +102,10 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
       - name: Run PyInstaller
-        run: pyinstaller -F --clean main.py
+        run: pyinstaller -F --clean Main.py
       - name: See dist directory
         run: ls dist
       - uses: actions/upload-artifact@v3
         with:
           name: MacOS
-          path: dist/main
+          path: dist
