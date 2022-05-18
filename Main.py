@@ -27,8 +27,12 @@ from utils.Cure import Cure
 from utils.Kill import Kill
 from utils.Renew import Renew
 
-base_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-config_path = os.path.join(base_path, "conf.ini")
+
+base_path = os.path.dirname(os.path.abspath(__file__))
+print(base_path)
+config_base_path = os.path.dirname(os.path.realpath(sys.argv[0]))
+config_path = os.path.join(config_base_path, "conf.ini")
+print(config_path)
 conf = configparser.ConfigParser()
 conf.read(config_path, encoding="utf-8")
 session, info_return = None, None
@@ -110,7 +114,7 @@ class Blogger:
 
         if 'blank;' not in QR_url:
             pics = requests.get(QR_url)
-            file_name = r'Img\{}.jpg'.format("Login")
+            file_name = base_path + r'\src\Img\{}.jpg'.format("Login")
             with open(file_name, 'wb') as f:
                 f.write(pics.content)
 
@@ -220,64 +224,70 @@ class Interface(QWidget):
         self.setFixedSize(int(713 * self.r), int(439 * self.r))
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.Tool | Qt.WindowStaysOnTopHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
-
-        ids = QFontDatabase.addApplicationFont('src/UI/Pixes.ttf')
+        # 打印当前目录路径
+        print(os.path.dirname(os.path.abspath(__file__)))
+        ids = QFontDatabase.addApplicationFont(base_path + '/src/UI/Pixes.ttf')
         fonts = QFont(QFontDatabase.applicationFontFamilies(ids)[0])
         fonts.setPointSize(int(12 * self.r))
 
         self.back_frame = QLabel(self)
         self.back_frame.move(0, 0)
         self.back_frame.setFixedSize(int(713 * self.r), int(439 * self.r))
-        back_frame_pic = QPixmap('src/UI/background_A.png')
+        back_frame_pic = QPixmap(base_path + '/src/UI/background_A.png')
         self.back_frame.setScaledContents(True)
         self.back_frame.setPixmap(back_frame_pic)
-
+        url = ""
+        for i in base_path:
+            if i == "\\":
+                url = url + "/"
+            else:
+                url = url + i
         self.do_button = QPushButton(self.back_frame)
         self.do_button.setFixedSize(int(76 * self.r), int(76 * self.r))
         self.do_button.move(int(517 * self.r), int(17 * self.r))
-        self.do_button.setStyleSheet("QPushButton{border-image: url(UI/do_idle.png)}"
-                                     "QPushButton:hover{border-image: url(UI/do_hover.png)}"
-                                     "QPushButton:pressed{border-image: url(UI/do_press.png)}")
+        self.do_button.setStyleSheet("QPushButton{border-image: url(" + url + "/src/UI/do_idle.png)}"
+                                     "QPushButton:hover{border-image: url(" + url + "/src/UI/do_hover.png)}"
+                                     "QPushButton:pressed{border-image: url(" + url + "/src/UI/do_press.png)}")
         self.do_button.clicked.connect(self.execute)
 
         self.stop_button = QPushButton(self.back_frame)
         self.stop_button.setFixedSize(int(82 * self.r), int(82 * self.r))
         self.stop_button.move(int(514 * self.r), int(98 * self.r))
-        self.stop_button.setStyleSheet("QPushButton{border-image: url(UI/stop_idle.png)}"
-                                       "QPushButton:hover{border-image: url(UI/stop_hover.png)}"
-                                       "QPushButton:pressed{border-image: url(UI/stop_press.png)}")
+        self.stop_button.setStyleSheet("QPushButton{border-image: url(" + url + "/src/UI/stop_idle.png)}"
+                                       "QPushButton:hover{border-image: url(" + url + "/src/UI/stop_hover.png)}"
+                                       "QPushButton:pressed{border-image: url(" + url + "/src/UI/stop_press.png)}")
         self.stop_button.clicked.connect(stop)
 
         self.music_button = QPushButton(self.back_frame)
         self.music_button.setFixedSize(int(75 * self.r), int(163 * self.r))
         self.music_button.move(int(592 * self.r), int(17 * self.r))
-        self.music_button.setStyleSheet("QPushButton{border-image: url(UI/music_idle.png)}"
-                                        "QPushButton:hover{border-image: url(UI/music_hover.png)}"
-                                        "QPushButton:pressed{border-image: url(UI/music_press.png)}")
+        self.music_button.setStyleSheet("QPushButton{border-image: url(" + url + "/src/UI/music_idle.png)}"
+                                        "QPushButton:hover{border-image: url(" + url + "/src/UI/music_hover.png)}"
+                                        "QPushButton:pressed{border-image: url(" + url + "/src/UI/music_press.png)}")
         self.music_button.clicked.connect(self.music)
 
         self.exit_button = QPushButton(self.back_frame)
         self.exit_button.setFixedSize(int(54 * self.r), int(163 * self.r))
         self.exit_button.move(int(660 * self.r), int(17 * self.r))
-        self.exit_button.setStyleSheet("QPushButton{border-image: url(UI/exit_idle.png)}"
-                                       "QPushButton:hover{border-image: url(UI/exit_hover.png)}"
-                                       "QPushButton:pressed{border-image: url(UI/exit_press.png)}")
+        self.exit_button.setStyleSheet("QPushButton{border-image: url(" + url + "/src/UI/exit_idle.png)}"
+                                       "QPushButton:hover{border-image: url(" + url + "/src/UI/exit_hover.png)}"
+                                       "QPushButton:pressed{border-image: url(" + url + "/src/UI/exit_press.png)}")
         self.exit_button.clicked.connect(sys.exit)
 
         self.id_base = QCheckBox('手动挡', self)
         self.id_base.move(int(41 * self.r), int(106 * self.r))
         self.id_base.setStyleSheet("QCheckBox{color: rgb(184, 96, 104);}"
                                    "QCheckBox::indicator{width: 20px;height: 21px;}"
-                                   "QCheckBox::indicator:enabled:unchecked{image: url(UI/none.png)}"
-                                   "QCheckBox::indicator:enabled:checked{image: url(UI/space.png)}")
+                                   "QCheckBox::indicator:enabled:unchecked{image: url(" + url + "/src/UI/none.png)}"
+                                   "QCheckBox::indicator:enabled:checked{image: url(" + url + "/src/UI/space.png)}")
         self.id_base.toggled.connect(self.change_id)
 
         self.auto_base = QCheckBox('自动挡', self)
         self.auto_base.move(int(41 * self.r), int(147 * self.r))
         self.auto_base.setStyleSheet("QCheckBox{color: rgb(184, 96, 104);}"
                                      "QCheckBox::indicator{width: 20px;height: 21px;}"
-                                     "QCheckBox::indicator:enabled:unchecked{image: url(UI/none.png)}"
-                                     "QCheckBox::indicator:enabled:checked{image: url(UI/space.png)}")
+                                     "QCheckBox::indicator:enabled:unchecked{image: url(" + url + "/src/UI/none.png)}"
+                                     "QCheckBox::indicator:enabled:checked{image: url(" + url + "/src/UI/space.png)}")
         self.auto_base.setChecked(True)
         self.auto_base.toggled.connect(self.change_auto)
 
@@ -285,24 +295,24 @@ class Interface(QWidget):
         self.bomb_mode.move(int(41 * self.r), int(208 * self.r))
         self.bomb_mode.setStyleSheet("QCheckBox{color: rgb(184, 96, 104);}"
                                      "QCheckBox::indicator{width: 20px;height: 21px;}"
-                                     "QCheckBox::indicator:enabled:unchecked{image: url(UI/none.png)}"
-                                     "QCheckBox::indicator:enabled:checked{image: url(UI/space.png)}")
+                                     "QCheckBox::indicator:enabled:unchecked{image: url(" + url + "/src/UI/none.png)}"
+                                     "QCheckBox::indicator:enabled:checked{image: url(" + url + "/src/UI/space.png)}")
         self.bomb_mode.toggled.connect(self.change_bomb)
 
         self.fast_tran = QCheckBox('是否快转', self)
         self.fast_tran.move(int(81 * self.r), int(249 * self.r))
         self.fast_tran.setStyleSheet("QCheckBox{color: rgb(211, 106, 126);}"
                                      "QCheckBox::indicator{width: 20px;height: 21px;}"
-                                     "QCheckBox::indicator:enabled:unchecked{image: url(UI/none.png)}"
-                                     "QCheckBox::indicator:enabled:checked{image: url(UI/space.png)}")
+                                     "QCheckBox::indicator:enabled:unchecked{image: url(" + url + "/src/UI/none.png)}"
+                                     "QCheckBox::indicator:enabled:checked{image: url(" + url + "/src/UI/space.png)}")
         self.fast_tran.toggled.connect(self.change_tran)
 
         self.fast_comm = QCheckBox('是否冲评', self)
         self.fast_comm.move(int(81 * self.r), int(290 * self.r))
         self.fast_comm.setStyleSheet("QCheckBox{color: rgb(211, 106, 126);}"
                                      "QCheckBox::indicator{width: 20px;height: 21px;}"
-                                     "QCheckBox::indicator:enabled:unchecked{image: url(UI/none.png)}"
-                                     "QCheckBox::indicator:enabled:checked{image: url(UI/space.png)}")
+                                     "QCheckBox::indicator:enabled:unchecked{image: url(/src/UI/none.png)}"
+                                     "QCheckBox::indicator:enabled:checked{image: url(/src/UI/space.png)}")
         self.fast_tran.toggled.connect(self.change_comm)
 
         self.cure_mode = QCheckBox('医疗模式', self)
@@ -310,8 +320,8 @@ class Interface(QWidget):
         self.cure_mode.setStyleSheet("color: rgb(184, 96, 104)")
         self.cure_mode.setStyleSheet("QCheckBox{color: rgb(184, 96, 104);}"
                                      "QCheckBox::indicator{width: 20px;height: 21px;}"
-                                     "QCheckBox::indicator:enabled:unchecked{image: url(UI/none.png)}"
-                                     "QCheckBox::indicator:enabled:checked{image: url(UI/space.png)}")
+                                     "QCheckBox::indicator:enabled:unchecked{image: url(" + url + "/src/UI/none.png)}"
+                                     "QCheckBox::indicator:enabled:checked{image: url(" + url + "/src/UI/space.png)}")
         self.cure_mode.toggled.connect(self.change_cure)
 
         self.renew_mode = QCheckBox('刷新模式', self)
@@ -319,8 +329,8 @@ class Interface(QWidget):
         self.renew_mode.setStyleSheet("color: rgb(184, 96, 104)")
         self.renew_mode.setStyleSheet("QCheckBox{color: rgb(184, 96, 104);}"
                                       "QCheckBox::indicator{width: 20px;height: 21px;}"
-                                      "QCheckBox::indicator:enabled:unchecked{image: url(UI/none.png)}"
-                                      "QCheckBox::indicator:enabled:checked{image: url(UI/space.png)}")
+                                      "QCheckBox::indicator:enabled:unchecked{image: url(" + url + "/src/UI/none.png)}"
+                                      "QCheckBox::indicator:enabled:checked{image: url(" + url + "/src/UI/space.png)}")
         self.renew_mode.toggled.connect(self.change_renew)
 
         self.create_text = QLineEdit(self)
@@ -335,7 +345,7 @@ class Interface(QWidget):
         self.animate = QLabel(self)
         self.animate.setFixedSize(int(119 * self.r), int(153 * self.r))
         self.animate.move(int(267 * self.r), int(270 * self.r))
-        self.gif = QMovie('src/JR.gif')
+        self.gif = QMovie(base_path + '/src/JR.gif')
         self.gif.setScaledSize(QSize(int(119 * self.r), int(153 * self.r)))
         self.animate.setMovie(self.gif)
         self.gif.start()
@@ -405,7 +415,7 @@ class Interface(QWidget):
             self.first_play = False
             self.playing = True
             pygame.mixer.init()
-            pygame.mixer.music.load("src/audio.mp3")
+            pygame.mixer.music.load(base_path + "/src/audio.mp3")
             pygame.mixer.music.set_volume(0.5)
             pygame.mixer.music.play(loops=-1, start=0.0, fade_ms=40)
         else:
@@ -584,7 +594,7 @@ def login():
                 elif int(way) == 2:
                     blogger.bar(25)
                     blogger.localize_scanner()
-                    path = (r'Img\{}.jpg'.format("Login"))
+                    path = (base_path + r'\src\Img\{}.jpg'.format("Login"))
                     pic.change.emit(path)
                     pic.start.emit()
                     console.print("请使用微博app扫描弹出的二维码", style="italic magenta")
@@ -611,7 +621,7 @@ def login():
                 sys.exit(0)
             else:
                 print("侦测到未知错误，请尝试关闭再打开本程序")
-                #print(e)
+                print(e)
                 sys.exit(0)
 
     thread = threading.Thread(target=do)
@@ -632,7 +642,7 @@ if __name__ == "__main__":
 
     window.signal.connect(append)
 
-    ids = QFontDatabase.addApplicationFont('src/UI/Pixes.ttf')
+    ids = QFontDatabase.addApplicationFont(base_path + '/src/UI/Pixes.ttf')
     font = QFont(QFontDatabase.applicationFontFamilies(ids)[0])
     font.setPointSize(int(13 * window.r * float(conf.get("RESCALE", "font_size"))))
     app.setFont(font)
